@@ -21,8 +21,8 @@ export async function askOrca(
   );
 
 
-  // We will connect this to
-  // Akhil's backend later.
+  
+
 
   return null;
 

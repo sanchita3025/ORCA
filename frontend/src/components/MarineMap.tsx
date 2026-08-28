@@ -11,7 +11,6 @@ import "leaflet/dist/leaflet.css";
 
 
 const userIcon = new L.Icon({
-
   iconUrl:
     "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
 
@@ -36,7 +35,6 @@ function MarineMap() {
 
 
   return (
-
     <div className="marine-map">
 
       <MapContainer
@@ -78,7 +76,6 @@ function MarineMap() {
       </MapContainer>
 
     </div>
-
   );
 }
 

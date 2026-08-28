@@ -1,18 +1,15 @@
 function LoadingScreen() {
 
   return (
-
     <div className="loading-screen">
 
       <div className="loading-orca">
         🐋
       </div>
 
-
       <h2>
         ORCA IS ANALYZING...
       </h2>
-
 
       <div className="loading-steps">
 
@@ -43,7 +40,6 @@ function LoadingScreen() {
       </div>
 
     </div>
-
   );
 }
 

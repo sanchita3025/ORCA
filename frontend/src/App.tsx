@@ -1,427 +1,240 @@
 import { useState } from "react";
 import "./App.css";
 
+import Navbar from "./components/Navbar";
+import QueryForm from "./components/QueryForm";
+import RiskCard from "./components/RiskCard";
+import MarineCards from "./components/MarineCards";
+import RiskBreakdown from "./components/RiskBreakdown";
+import EvidencePanel from "./components/EvidencePanel";
 import MarineMap from "./components/MarineMap";
+import WhatIfPanel from "./components/WhatIfPanel";
 import LoadingScreen from "./components/LoadingScreen";
+import ErrorScreen from "./components/ErrorScreen";
+
 import { demoData } from "./data/demoData";
 
 function App() {
-  const [question, setQuestion] = useState("");
-  const [latitude, setLatitude] = useState("20.26");
-  const [longitude, setLongitude] = useState("86.70");
-
-  const [showResult, setShowResult] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [showResults, setShowResults] = useState(false);
 
-  const handleAsk = () => {
-    if (!question.trim()) {
-      alert("Please enter your question.");
-      return;
-    }
-
+  const handleAskOrca = () => {
+    setError(false);
     setLoading(true);
-    setShowResult(false);
+    setShowResults(false);
 
     setTimeout(() => {
       setLoading(false);
-      setShowResult(true);
-    }, 2000);
+      setShowResults(true);
+    }, 1800);
+  };
+
+  const handleRetry = () => {
+    setError(false);
+    handleAskOrca();
   };
 
   return (
     <div className="app">
+      <Navbar />
 
-      {/* NAVBAR */}
+      <main>
+        {/* HERO */}
+        <section className="hero-section">
+          <div className="hero-content">
+            <div className="orca-badge">🐋 ORCA MARINE INTELLIGENCE</div>
 
-      <nav className="navbar">
-        <div className="logo">
-          🐋 ORCA
-        </div>
+            <h1>
+              Marine Ecosystem
+              <span> Reasoning Platform</span>
+            </h1>
 
-        <div className="nav-subtitle">
-          Marine Ecosystem Intelligence
-        </div>
-      </nav>
-
-
-      {/* MAIN */}
-
-      <main className="container">
-
-        {/* QUESTION */}
-
-        <section className="hero">
-
-          <h1>
-            What do you want to know?
-          </h1>
-
-          <p>
-            Ask ORCA about marine conditions,
-            fishing safety, ocean conditions and more.
-          </p>
-
-
-          <textarea
-            placeholder="Can I go fishing tomorrow morning near Paradip?"
-            value={question}
-            onChange={(e) =>
-              setQuestion(e.target.value)
-            }
-          />
-
-
-          {/* LOCATION */}
-
-          <div className="location-row">
-
-            <div className="input-group">
-
-              <label>
-                Latitude
-              </label>
-
-              <input
-                value={latitude}
-                onChange={(e) =>
-                  setLatitude(e.target.value)
-                }
-              />
-
-            </div>
-
-
-            <div className="input-group">
-
-              <label>
-                Longitude
-              </label>
-
-              <input
-                value={longitude}
-                onChange={(e) =>
-                  setLongitude(e.target.value)
-                }
-              />
-
-            </div>
-
+            <p>
+              Ask ORCA about marine conditions, fishing safety, weather,
+              ocean conditions and recommended zones.
+            </p>
           </div>
-
-
-          {/* DATE + TIME */}
-
-          <div className="location-row">
-
-            <div className="input-group">
-
-              <label>
-                Date
-              </label>
-
-              <input
-                type="date"
-              />
-
-            </div>
-
-
-            <div className="input-group">
-
-              <label>
-                Time
-              </label>
-
-              <input
-                type="time"
-              />
-
-            </div>
-
-          </div>
-
-
-          {/* ASK BUTTON */}
-
-          <button
-            className="ask-button"
-            onClick={handleAsk}
-            disabled={loading}
-          >
-            🐋 ASK ORCA
-          </button>
-
         </section>
 
+        {/* QUERY */}
+        <section className="query-section">
+          <QueryForm onAsk={handleAskOrca} />
+        </section>
 
         {/* LOADING */}
-
         {loading && (
-          <LoadingScreen />
+          <section className="content-section">
+            <LoadingScreen />
+          </section>
         )}
 
+        {/* ERROR */}
+        {error && (
+          <section className="content-section">
+            <ErrorScreen onRetry={handleRetry} />
+          </section>
+        )}
 
         {/* RESULTS */}
+        {showResults && !loading && !error && (
+          <div className="results-container">
 
-        {showResult && !loading && (
+            {/* RESULT HEADER */}
+            <section className="content-section">
+              <div className="result-header">
+                <div>
+                  <p className="section-label">ORCA ASSESSMENT</p>
+                  <h2>Marine Safety Assessment</h2>
+                </div>
 
-          <section className="results">
-
-            {/* RISK */}
-
-            <div className="risk-card">
-
-              <div>
-
-                <span className="risk-label">
-                  🟡 {demoData.risk.level} RISK
-                </span>
-
-                <h2>
-                  {demoData.risk.score} / 100
-                </h2>
-
-                <p>
-                  Conditions require caution.
-                </p>
-
+                <div className="live-badge">
+                  ● DEMO DATA
+                </div>
               </div>
 
-            </div>
+              <RiskCard data={demoData.risk} />
+            </section>
 
+            {/* RECOMMENDATION */}
+            <section className="content-section">
+              <div className="recommendation-card">
+                <div className="recommendation-icon">💡</div>
+
+                <div>
+                  <p className="section-label">ORCA RECOMMENDATION</p>
+                  <h3>{demoData.answer}</h3>
+
+                  <p>
+                    Consider the current marine and weather conditions
+                    before making your decision.
+                  </p>
+                </div>
+              </div>
+            </section>
 
             {/* MARINE DATA */}
-
-            <div className="cards">
-
-              <div className="card">
-
-                <span>🌊</span>
-
-                <h3>
-                  Ocean
-                </h3>
-
-                <strong>
-                  {demoData.ocean.wave_height} m
-                </strong>
-
-                <p>
-                  Wave height
-                </p>
-
+            <section className="content-section">
+              <div className="section-heading">
+                <p className="section-label">MARINE CONDITIONS</p>
+                <h2>Environmental Overview</h2>
               </div>
 
-
-              <div className="card">
-
-                <span>💨</span>
-
-                <h3>
-                  Wind
-                </h3>
-
-                <strong>
-                  {demoData.weather.wind_speed} km/h
-                </strong>
-
-                <p>
-                  Wind speed
-                </p>
-
-              </div>
-
-
-              <div className="card">
-
-                <span>🌡️</span>
-
-                <h3>
-                  SST
-                </h3>
-
-                <strong>
-                  {demoData.ocean.sst}°C
-                </strong>
-
-                <p>
-                  Sea surface temperature
-                </p>
-
-              </div>
-
-
-              <div className="card">
-
-                <span>🛰️</span>
-
-                <h3>
-                  PFZ
-                </h3>
-
-                <strong>
-                  {demoData.satellite.pfz}
-                </strong>
-
-                <p>
-                  Satellite analysis
-                </p>
-
-              </div>
-
-            </div>
-
+              <MarineCards
+                weather={demoData.weather}
+                ocean={demoData.ocean}
+                satellite={demoData.satellite}
+                gis={demoData.gis}
+              />
+            </section>
 
             {/* WHY */}
-
-            <div className="section-card">
-
-              <h2>
-                💡 WHY THIS RESULT?
-              </h2>
-
-
-              <div className="breakdown">
-
-                <div>
-                  <span>🌊 Waves</span>
-                  <strong>
-                    +{demoData.breakdown.waves}
-                  </strong>
-                </div>
-
-
-                <div>
-                  <span>💨 Wind</span>
-                  <strong>
-                    +{demoData.breakdown.wind}
-                  </strong>
-                </div>
-
-
-                <div>
-                  <span>🌦️ Weather</span>
-                  <strong>
-                    +{demoData.breakdown.weather}
-                  </strong>
-                </div>
-
-
-                <div>
-                  <span>🌊 Ocean</span>
-                  <strong>
-                    +{demoData.breakdown.ocean}
-                  </strong>
-                </div>
-
-
-                <div>
-                  <span>🛰️ PFZ</span>
-                  <strong>
-                    {demoData.breakdown.pfz}
-                  </strong>
-                </div>
-
+            <section className="content-section">
+              <div className="section-heading">
+                <p className="section-label">EXPLAINABLE REASONING</p>
+                <h2>💡 Why this result?</h2>
+                <p>
+                  ORCA breaks down the factors contributing to the
+                  current risk assessment.
+                </p>
               </div>
 
-
-              <p className="explanation">
-
-                Wave and wind conditions are the
-                main contributors to the current risk.
-
-              </p>
-
-            </div>
-
+              <RiskBreakdown data={demoData.breakdown} />
+            </section>
 
             {/* MAP */}
+            <section className="content-section">
+              <div className="section-heading">
+                <p className="section-label">SPATIAL INTELLIGENCE</p>
+                <h2>🗺️ Marine Map</h2>
+                <p>
+                  Explore your location, recommended fishing zones and
+                  restricted areas.
+                </p>
+              </div>
 
-            <div className="section-card">
-
-              <h2>
-                🗺️ MARINE MAP
-              </h2>
-
-              <MarineMap />
-
-            </div>
-
+              <MarineMap
+                latitude={20.26}
+                longitude={86.70}
+              />
+            </section>
 
             {/* CONFIDENCE */}
+            <section className="content-section">
+              <div className="confidence-card">
+                <div className="confidence-top">
+                  <div>
+                    <p className="section-label">DATA CONFIDENCE</p>
+                    <h2>
+                      {Math.round(
+                        demoData.verification.confidence * 100
+                      )}
+                      %
+                    </h2>
+                  </div>
 
-            <div className="section-card confidence">
+                  <div className="confidence-status">
+                    ✓ Verified
+                  </div>
+                </div>
 
-              <h2>
-                📊 DATA CONFIDENCE
-              </h2>
+                <div className="confidence-bar">
+                  <div
+                    style={{
+                      width: `${
+                        demoData.verification.confidence * 100
+                      }%`,
+                    }}
+                  />
+                </div>
 
-              <div className="confidence-score">
+                <div className="confidence-sources">
+                  <span>✓ Weather</span>
+                  <span>✓ Ocean</span>
+                  <span>✓ Satellite</span>
+                  <span>✓ GIS</span>
+                </div>
+              </div>
+            </section>
 
-                {Math.round(
-                  demoData.verification.confidence * 100
-                )}
-                %
-
+            {/* EVIDENCE */}
+            <section className="content-section">
+              <div className="section-heading">
+                <p className="section-label">TRACEABLE DATA</p>
+                <h2>📚 Evidence & Sources</h2>
               </div>
 
-
-              <p>
-                ✓ Weather
-              </p>
-
-              <p>
-                ✓ Ocean
-              </p>
-
-              <p>
-                ✓ Satellite
-              </p>
-
-              <p>
-                ✓ GIS
-              </p>
-
-            </div>
-
+              <EvidencePanel />
+            </section>
 
             {/* WHAT IF */}
-
-            <div className="section-card">
-
-              <h2>
-                🔄 WHAT IF?
-              </h2>
-
-              <p>
-                What if I leave at:
-              </p>
-
-
-              <div className="time-buttons">
-
-                <button>
-                  6 AM
-                </button>
-
-                <button>
-                  8 AM
-                </button>
-
-                <button>
-                  10 AM
-                </button>
-
+            <section className="content-section">
+              <div className="section-heading">
+                <p className="section-label">SCENARIO ANALYSIS</p>
+                <h2>🔄 What if?</h2>
+                <p>
+                  Compare different departure times and see how the
+                  assessment changes.
+                </p>
               </div>
 
-            </div>
+              <WhatIfPanel />
+            </section>
 
-          </section>
-
+          </div>
         )}
-
       </main>
 
+      <footer>
+        <div>
+          🐋 <strong>ORCA</strong>
+          <span> Marine Ecosystem Intelligence</span>
+        </div>
+
+        <p>
+          Decision support powered by collaborative marine intelligence.
+        </p>
+      </footer>
     </div>
   );
 }
