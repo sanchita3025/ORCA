@@ -4,28 +4,57 @@ import "./App.css";
 import MarineMap from "./components/MarineMap";
 import LoadingScreen from "./components/LoadingScreen";
 import { demoData } from "./data/demoData";
+import { getSatelliteData } from "./services/api";
+import type { SatelliteData } from "./services/api";
 
 function App() {
   const [question, setQuestion] = useState("");
+
   const [latitude, setLatitude] = useState("20.26");
   const [longitude, setLongitude] = useState("86.70");
 
   const [showResult, setShowResult] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const handleAsk = () => {
+  const [satelliteData, setSatelliteData] =
+    useState<SatelliteData | null>(null);
+
+  const [error, setError] = useState("");
+
+  const handleAsk = async () => {
     if (!question.trim()) {
       alert("Please enter your question.");
       return;
     }
 
+    const lat = Number(latitude);
+    const lon = Number(longitude);
+
+    if (isNaN(lat) || isNaN(lon)) {
+      alert("Please enter valid latitude and longitude.");
+      return;
+    }
+
     setLoading(true);
     setShowResult(false);
+    setError("");
 
-    setTimeout(() => {
-      setLoading(false);
+    try {
+      const data = await getSatelliteData(lat, lon);
+
+      console.log("Satellite data:", data);
+
+      setSatelliteData(data);
       setShowResult(true);
-    }, 2000);
+    } catch (err) {
+      console.error("Satellite API error:", err);
+
+      setError(
+        "Unable to fetch satellite data. Please make sure the ORCA backend is running."
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -119,9 +148,7 @@ function App() {
                 Date
               </label>
 
-              <input
-                type="date"
-              />
+              <input type="date" />
 
             </div>
 
@@ -132,9 +159,7 @@ function App() {
                 Time
               </label>
 
-              <input
-                type="time"
-              />
+              <input type="time" />
 
             </div>
 
@@ -148,10 +173,19 @@ function App() {
             onClick={handleAsk}
             disabled={loading}
           >
-            🐋 ASK ORCA
+            🐋 {loading ? "ANALYZING..." : "ASK ORCA"}
           </button>
 
         </section>
+
+
+        {/* ERROR */}
+
+        {error && (
+          <div className="section-card">
+            <p>{error}</p>
+          </div>
+        )}
 
 
         {/* LOADING */}
@@ -163,7 +197,9 @@ function App() {
 
         {/* RESULTS */}
 
-        {showResult && !loading && (
+        {showResult &&
+          !loading &&
+          satelliteData && (
 
           <section className="results">
 
@@ -232,6 +268,8 @@ function App() {
               </div>
 
 
+              {/* REAL SST */}
+
               <div className="card">
 
                 <span>🌡️</span>
@@ -241,7 +279,7 @@ function App() {
                 </h3>
 
                 <strong>
-                  {demoData.ocean.sst}°C
+                  {satelliteData.sst.value}°C
                 </strong>
 
                 <p>
@@ -250,6 +288,8 @@ function App() {
 
               </div>
 
+
+              {/* REAL PFZ */}
 
               <div className="card">
 
@@ -260,14 +300,41 @@ function App() {
                 </h3>
 
                 <strong>
-                  {demoData.satellite.pfz}
+                  {satelliteData.pfz.available
+                    ? "Available"
+                    : "Not Available"}
                 </strong>
 
                 <p>
-                  Satellite analysis
+                  {satelliteData.source.pfz}
                 </p>
 
               </div>
+
+            </div>
+
+
+            {/* CHLOROPHYLL */}
+
+            <div className="section-card">
+
+              <h2>
+                🌿 CHLOROPHYLL
+              </h2>
+
+              <div className="confidence-score">
+
+                {satelliteData.chlorophyll.value}
+
+              </div>
+
+              <p>
+                Unit: {satelliteData.chlorophyll.unit}
+              </p>
+
+              <p>
+                Source: {satelliteData.source.chlorophyll}
+              </p>
 
             </div>
 
@@ -327,8 +394,11 @@ function App() {
 
               <p className="explanation">
 
-                Wave and wind conditions are the
-                main contributors to the current risk.
+                Satellite observations provide
+                real-time marine indicators including
+                sea surface temperature,
+                chlorophyll concentration and
+                potential fishing zone information.
 
               </p>
 
