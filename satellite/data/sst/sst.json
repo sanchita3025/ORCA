@@ -1,0 +1,11 @@
+{
+  "variable": "Sea Surface Temperature",
+  "value": 28.787,
+  "unit": "°C",
+  "latitude": 19.199,
+  "longitude": 85.229,
+  "date": "2026-08-28",
+  "source": "INCOIS",
+  "data_status": "available",
+  "note": "SST observation/forecast for a nearby marine location."
+}

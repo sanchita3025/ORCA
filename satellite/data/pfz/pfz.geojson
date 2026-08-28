@@ -1,0 +1,22 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "landing_center": "Gopalpur",
+        "sector": "ODISHA",
+        "source": "INCOIS",
+        "valid_until": "2026-08-28",
+        "direction": "SE",
+        "bearing_deg": 100,
+        "distance_km": "101-106",
+        "depth_m": "41-46"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [85.296667, 19.186667]
+      }
+    }
+  ]
+}

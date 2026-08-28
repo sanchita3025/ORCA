@@ -1,0 +1,11 @@
+{
+    "variable": "Chlorophyll-a",
+    "value": 0.8529,
+    "unit": "mg/m³",
+    "latitude": 18.753,
+    "longitude": 85.820,
+    "date": "2026-08-17",
+    "source": "Copernicus Marine",
+    "data_status": "nearby_observation",
+    "note": "Satellite chlorophyll observation from a nearby marine location; not the exact PFZ coordinate."
+}
