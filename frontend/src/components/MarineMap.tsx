@@ -3,12 +3,19 @@ import {
   TileLayer,
   Marker,
   Popup,
+  useMap,
 } from "react-leaflet";
 
+import { useEffect } from "react";
 import L from "leaflet";
 
 import "leaflet/dist/leaflet.css";
 
+type MarineMapProps = {
+  latitude: number;
+  longitude: number;
+  locationName?: string;
+};
 
 const userIcon = new L.Icon({
   iconUrl:
@@ -23,35 +30,69 @@ const userIcon = new L.Icon({
   iconSize: [25, 41],
 
   iconAnchor: [12, 41],
-
 });
 
+/* -----------------------------------------
+   UPDATE MAP WHEN LOCATION CHANGES
+----------------------------------------- */
 
-function MarineMap() {
+function MapUpdater({
+  latitude,
+  longitude,
+}: {
+  latitude: number;
+  longitude: number;
+}) {
+  const map = useMap();
 
-  const latitude = 20.26;
+  useEffect(() => {
+    map.flyTo(
+      [latitude, longitude],
+      9,
+      {
+        duration: 1.2,
+      }
+    );
+  }, [latitude, longitude, map]);
 
-  const longitude = 86.70;
+  return null;
+}
 
+/* -----------------------------------------
+   MARINE MAP
+----------------------------------------- */
 
+function MarineMap({
+  latitude,
+  longitude,
+  locationName = "Selected marine location",
+}: MarineMapProps) {
   return (
-    <div className="marine-map">
+    <div className="map-wrapper">
+
+      <div className="map-overlay-title">
+        📍 {locationName}
+      </div>
 
       <MapContainer
         center={[latitude, longitude]}
-        zoom={8}
+        zoom={9}
         scrollWheelZoom={true}
         style={{
-          height: "400px",
+          height: "480px",
           width: "100%",
         }}
       >
+
+        <MapUpdater
+          latitude={latitude}
+          longitude={longitude}
+        />
 
         <TileLayer
           attribution="&copy; OpenStreetMap contributors"
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-
 
         <Marker
           position={[
@@ -60,17 +101,20 @@ function MarineMap() {
           ]}
           icon={userIcon}
         >
-
           <Popup>
-
-            📍 Your selected location
+            <strong>
+              📍 {locationName}
+            </strong>
 
             <br />
 
-            Near Paradip
+            Selected assessment location
 
+            <br />
+
+            {latitude.toFixed(4)},{" "}
+            {longitude.toFixed(4)}
           </Popup>
-
         </Marker>
 
       </MapContainer>
@@ -78,6 +122,5 @@ function MarineMap() {
     </div>
   );
 }
-
 
 export default MarineMap;

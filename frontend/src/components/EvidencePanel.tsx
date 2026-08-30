@@ -1,4 +1,20 @@
-function EvidencePanel() {
+type EvidencePanelProps = {
+  verification?: {
+    verified?: boolean;
+    confidence?: number;
+  };
+};
+
+function EvidencePanel({
+  verification,
+}: EvidencePanelProps) {
+  const verified =
+    verification?.verified ?? false;
+
+  const confidence = Math.round(
+    (verification?.confidence ?? 0) * 100
+  );
+
   const evidence = [
     {
       icon: "🌦️",
@@ -31,24 +47,117 @@ function EvidencePanel() {
   ];
 
   return (
-    <div className="evidence-grid">
-      {evidence.map((item) => (
-        <div className="evidence-card" key={item.name}>
-          <div className="evidence-icon">{item.icon}</div>
+    <div className="evidence-panel">
 
-          <div className="evidence-info">
-            <h3>{item.name}</h3>
+      {/* ==========================================
+          VERIFICATION SUMMARY
+      ========================================== */}
 
-            <div className="evidence-status">
-              <span>✓</span> {item.status}
+      <div className="evidence-verification">
+
+        <div>
+          <strong>
+            Overall verification
+          </strong>
+
+          <span>
+            {verified
+              ? "✓ Verified"
+              : "⚠ Partial verification"}
+          </span>
+        </div>
+
+        <div>
+          <strong>
+            Confidence
+          </strong>
+
+          <span>
+            {confidence}%
+          </span>
+        </div>
+
+      </div>
+
+      {/* ==========================================
+          CONFIDENCE BAR
+      ========================================== */}
+
+      <div className="evidence-confidence">
+
+        <div className="evidence-confidence-header">
+
+          <span>
+            Data confidence
+          </span>
+
+          <strong>
+            {confidence}%
+          </strong>
+
+        </div>
+
+        <div className="evidence-confidence-bar">
+
+          <div
+            style={{
+              width: `${confidence}%`,
+            }}
+          />
+
+        </div>
+
+      </div>
+
+      {/* ==========================================
+          DATA SOURCES
+      ========================================== */}
+
+      <div className="evidence-grid">
+
+        {evidence.map((item) => (
+
+          <div
+            className="evidence-card"
+            key={item.name}
+          >
+
+            <div className="evidence-icon">
+              {item.icon}
             </div>
 
-            <p>{item.source}</p>
+            <div className="evidence-info">
 
-            <small>Updated: {item.time}</small>
+              <h3>
+                {item.name}
+              </h3>
+
+              <div className="evidence-status">
+
+                <span>
+                  ✓
+                </span>
+
+                {item.status}
+
+              </div>
+
+              <p>
+                {item.source}
+              </p>
+
+              <small>
+                Updated: {item.time}
+              </small>
+
+            </div>
+
           </div>
-        </div>
-      ))}
+
+        ))}
+
+      </div>
+
     </div>
   );
 }

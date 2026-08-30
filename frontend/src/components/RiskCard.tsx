@@ -33,7 +33,9 @@ export default function RiskCard({
   return (
     <div className={`risk-card ${getRiskClass()}`}>
       <div className="risk-header">
-        <span className="risk-label">ORCA RISK ASSESSMENT</span>
+        <span className="risk-label">
+          ORCA RISK ASSESSMENT
+        </span>
 
         <span className="risk-level">
           {safeLevel}
@@ -41,7 +43,7 @@ export default function RiskCard({
       </div>
 
       <div className="risk-score">
-        {score}
+        {Math.round(score)}
         <span>/ 100</span>
       </div>
 
