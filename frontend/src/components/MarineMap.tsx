@@ -6,7 +6,10 @@ import {
   useMap,
 } from "react-leaflet";
 
-import { useEffect } from "react";
+import {
+  useEffect,
+} from "react";
+
 import L from "leaflet";
 
 import "leaflet/dist/leaflet.css";
@@ -17,24 +20,38 @@ type MarineMapProps = {
   locationName?: string;
 };
 
-const userIcon = new L.Icon({
-  iconUrl:
-    "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
+const userIcon =
+  new L.Icon({
+    iconUrl:
+      "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
 
-  iconRetinaUrl:
-    "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
+    iconRetinaUrl:
+      "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
 
-  shadowUrl:
-    "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+    shadowUrl:
+      "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
 
-  iconSize: [25, 41],
+    iconSize: [
+      25,
+      41,
+    ],
 
-  iconAnchor: [12, 41],
-});
+    iconAnchor: [
+      12,
+      41,
+    ],
 
-/* -----------------------------------------
-   UPDATE MAP WHEN LOCATION CHANGES
------------------------------------------ */
+    popupAnchor: [
+      1,
+      -34,
+    ],
+  });
+
+/*
+=========================================================
+MAP POSITION UPDATER
+=========================================================
+*/
 
 function MapUpdater({
   latitude,
@@ -43,30 +60,48 @@ function MapUpdater({
   latitude: number;
   longitude: number;
 }) {
-  const map = useMap();
+  const map =
+    useMap();
 
   useEffect(() => {
     map.flyTo(
-      [latitude, longitude],
+      [
+        latitude,
+        longitude,
+      ],
       9,
       {
         duration: 1.2,
       }
     );
-  }, [latitude, longitude, map]);
+  }, [
+    latitude,
+    longitude,
+    map,
+  ]);
 
   return null;
 }
 
-/* -----------------------------------------
-   MARINE MAP
------------------------------------------ */
+/*
+=========================================================
+MARINE MAP
+=========================================================
+*/
 
 function MarineMap({
   latitude,
   longitude,
-  locationName = "Selected marine location",
+  locationName =
+    "Selected marine location",
 }: MarineMapProps) {
+
+  const position:
+    [number, number] = [
+      latitude,
+      longitude,
+    ];
+
   return (
     <div className="map-wrapper">
 
@@ -75,7 +110,7 @@ function MarineMap({
       </div>
 
       <MapContainer
-        center={[latitude, longitude]}
+        center={position}
         zoom={9}
         scrollWheelZoom={true}
         style={{
@@ -95,13 +130,12 @@ function MarineMap({
         />
 
         <Marker
-          position={[
-            latitude,
-            longitude,
-          ]}
+          position={position}
           icon={userIcon}
         >
+
           <Popup>
+
             <strong>
               📍 {locationName}
             </strong>
@@ -112,9 +146,13 @@ function MarineMap({
 
             <br />
 
-            {latitude.toFixed(4)},{" "}
-            {longitude.toFixed(4)}
+            <span>
+              {latitude.toFixed(4)},{" "}
+              {longitude.toFixed(4)}
+            </span>
+
           </Popup>
+
         </Marker>
 
       </MapContainer>

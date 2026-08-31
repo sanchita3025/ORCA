@@ -1,6 +1,10 @@
 type WhatIfPanelProps = {
-  onTimeChange: (time: string) => void;
+  onTimeChange: (
+    time: string
+  ) => void;
+
   selectedTime: string;
+
   loading?: boolean;
 };
 
@@ -12,9 +16,20 @@ function WhatIfPanel({
 
   const times = [
     "06:00",
+    "07:00",
     "08:00",
+    "09:00",
     "10:00",
+    "11:00",
     "12:00",
+    "13:00",
+    "14:00",
+    "15:00",
+    "16:00",
+    "17:00",
+    "18:00",
+    "19:00",
+    "20:00",
   ];
 
   return (
@@ -22,7 +37,9 @@ function WhatIfPanel({
 
       <div className="section-heading">
 
-        <span>🔄</span>
+        <span>
+          🔄
+        </span>
 
         <div>
 
@@ -32,7 +49,8 @@ function WhatIfPanel({
 
           <p>
             See how changing the departure
-            time affects the assessment.
+            time affects the complete marine
+            assessment.
           </p>
 
         </div>
@@ -41,35 +59,53 @@ function WhatIfPanel({
 
       <div className="time-options">
 
-        {times.map((time) => (
+        {times.map(
+          (time) => {
 
-          <button
-            key={time}
-            type="button"
-            className={
-              selectedTime === time
-                ? "time-selected"
-                : ""
-            }
-            onClick={() =>
-              onTimeChange(time)
-            }
-            disabled={loading}
-          >
-            {time}
-          </button>
+            const selected =
+              selectedTime === time;
 
-        ))}
+            return (
+              <button
+                key={time}
+                type="button"
+                className={
+                  selected
+                    ? "time-selected"
+                    : ""
+                }
+                onClick={() =>
+                  onTimeChange(time)
+                }
+                disabled={
+                  loading ||
+                  selected
+                }
+              >
+                {time}
+
+                {selected && (
+                  <span>
+                    ✓
+                  </span>
+                )}
+              </button>
+            );
+          }
+        )}
 
       </div>
 
       {loading && (
+        <div className="what-if-loading">
 
-        <p className="what-if-loading">
-          🐋 ORCA is recalculating the
-          conditions...
-        </p>
+          <span className="status-dot" />
 
+          ORCA is recalculating
+          weather, ocean, satellite
+          and GIS conditions...
+
+        </div>
       )}
 
     </section>

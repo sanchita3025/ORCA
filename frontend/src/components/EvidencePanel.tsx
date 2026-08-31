@@ -1,19 +1,52 @@
+type VerificationData = {
+  verified?: boolean;
+  confidence?: number;
+};
+
 type EvidencePanelProps = {
-  verification?: {
-    verified?: boolean;
-    confidence?: number;
-  };
+  verification?: VerificationData;
 };
 
 function EvidencePanel({
   verification,
 }: EvidencePanelProps) {
-  const verified =
-    verification?.verified ?? false;
 
-  const confidence = Math.round(
-    (verification?.confidence ?? 0) * 100
-  );
+  const verified =
+    verification?.verified ??
+    false;
+
+  const confidenceValue =
+    Number(
+      verification?.confidence ?? 0
+    );
+
+  /*
+    Backend may return:
+    0.87
+
+    or occasionally:
+    87
+
+    Normalize both.
+  */
+
+  const confidence =
+    confidenceValue <= 1
+      ? Math.round(
+          confidenceValue * 100
+        )
+      : Math.round(
+          confidenceValue
+        );
+
+  const safeConfidence =
+    Math.min(
+      100,
+      Math.max(
+        0,
+        confidence
+      )
+    );
 
   const evidence = [
     {
@@ -23,6 +56,7 @@ function EvidencePanel({
       source: "Weather data service",
       time: "Recent",
     },
+
     {
       icon: "🌊",
       name: "Ocean",
@@ -30,6 +64,7 @@ function EvidencePanel({
       source: "Marine data service",
       time: "Recent",
     },
+
     {
       icon: "🛰️",
       name: "Satellite / PFZ",
@@ -37,6 +72,7 @@ function EvidencePanel({
       source: "INCOIS / Satellite data",
       time: "Recent",
     },
+
     {
       icon: "🗺️",
       name: "GIS",
@@ -49,13 +85,12 @@ function EvidencePanel({
   return (
     <div className="evidence-panel">
 
-      {/* ==========================================
-          VERIFICATION SUMMARY
-      ========================================== */}
+      {/* VERIFICATION SUMMARY */}
 
       <div className="evidence-verification">
 
         <div>
+
           <strong>
             Overall verification
           </strong>
@@ -65,23 +100,24 @@ function EvidencePanel({
               ? "✓ Verified"
               : "⚠ Partial verification"}
           </span>
+
         </div>
 
         <div>
+
           <strong>
             Confidence
           </strong>
 
           <span>
-            {confidence}%
+            {safeConfidence}%
           </span>
+
         </div>
 
       </div>
 
-      {/* ==========================================
-          CONFIDENCE BAR
-      ========================================== */}
+      {/* CONFIDENCE */}
 
       <div className="evidence-confidence">
 
@@ -92,7 +128,7 @@ function EvidencePanel({
           </span>
 
           <strong>
-            {confidence}%
+            {safeConfidence}%
           </strong>
 
         </div>
@@ -101,7 +137,8 @@ function EvidencePanel({
 
           <div
             style={{
-              width: `${confidence}%`,
+              width:
+                `${safeConfidence}%`,
             }}
           />
 
@@ -109,52 +146,52 @@ function EvidencePanel({
 
       </div>
 
-      {/* ==========================================
-          DATA SOURCES
-      ========================================== */}
+      {/* SOURCES */}
 
       <div className="evidence-grid">
 
-        {evidence.map((item) => (
+        {evidence.map(
+          (item) => (
 
-          <div
-            className="evidence-card"
-            key={item.name}
-          >
+            <div
+              className="evidence-card"
+              key={item.name}
+            >
 
-            <div className="evidence-icon">
-              {item.icon}
-            </div>
+              <div className="evidence-icon">
+                {item.icon}
+              </div>
 
-            <div className="evidence-info">
+              <div className="evidence-info">
 
-              <h3>
-                {item.name}
-              </h3>
+                <h3>
+                  {item.name}
+                </h3>
 
-              <div className="evidence-status">
+                <div className="evidence-status">
 
-                <span>
-                  ✓
-                </span>
+                  <span>
+                    ✓
+                  </span>
 
-                {item.status}
+                  {item.status}
+
+                </div>
+
+                <p>
+                  {item.source}
+                </p>
+
+                <small>
+                  Updated: {item.time}
+                </small>
 
               </div>
 
-              <p>
-                {item.source}
-              </p>
-
-              <small>
-                Updated: {item.time}
-              </small>
-
             </div>
 
-          </div>
-
-        ))}
+          )
+        )}
 
       </div>
 
