@@ -1778,46 +1778,6 @@ footer > p {
    REAL VOICE INPUT
    ========================================================= */
 
-.voice-button {
-  position: absolute;
-
-  right: 14px;
-  bottom: 14px;
-
-  width: 48px;
-  height: 48px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border-radius: 50%;
-
-  border: 1px solid rgba(103, 232, 249, 0.25);
-
-  background: rgba(8, 47, 73, 0.8);
-
-  color: #67e8f9;
-
-  font-size: 20px;
-
-  cursor: pointer;
-
-  transition:
-    transform 0.2s ease,
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
-}
-
-.voice-button:hover {
-  transform: scale(1.06);
-
-  border-color: rgba(103, 232, 249, 0.65);
-
-  box-shadow:
-    0 0 25px rgba(34, 211, 238, 0.15);
-}
-
 .voice-button-listening {
   border-color: #22d3ee;
 
@@ -2292,13 +2252,14 @@ footer > p {
    ========================================================= */
 
 .try-asking {
-  margin-top: 18px;
+  margin-top: 16px;
+  margin-bottom: 26px;
 }
 
 .try-asking > p {
   margin: 0 0 10px;
 
-  color: #64748b;
+  color: #67e8f9;
 
   font-size: 10px;
 
@@ -2309,233 +2270,70 @@ footer > p {
 
 .suggestion-list {
   display: flex;
-
+  flex-direction: column;
   gap: 8px;
-
-  overflow-x: auto;
-
-  padding-bottom: 4px;
+  width: 100%;
 }
 
 .suggestion-list button {
-  flex-shrink: 0;
+  width: 100%;
+  min-height: 42px;
 
-  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
 
-  border-radius: 999px;
+  padding: 10px 14px;
+
+  border-radius: 12px;
 
   border: 1px solid
-    rgba(103, 232, 249, 0.12);
+    rgba(103, 232, 249, 0.10);
 
   background:
-    rgba(8, 47, 73, 0.35);
+    rgba(8, 47, 73, 0.28);
 
   color: #94a3b8;
 
   font-size: 12px;
+  line-height: 1.4;
+  text-align: left;
 
   cursor: pointer;
 
-  transition: all 0.2s ease;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
-.suggestion-list button:hover {
+.suggestion-list button span {
+  flex-shrink: 0;
   color: #67e8f9;
-
-  border-color:
-    rgba(103, 232, 249, 0.35);
-
-  background:
-    rgba(8, 70, 100, 0.45);
-}
-
-
-/* =========================================================
-   MOBILE
-   ========================================================= */
-
-@media (max-width: 700px) {
-
-  .query-input-wrapper textarea {
-    min-height: 130px;
-
-    padding: 17px;
-
-    font-size: 16px;
-  }
-
-  .query-controls {
-    align-items: stretch;
-
-    flex-direction: column;
-  }
-
-  .query-left-controls {
-    justify-content: space-between;
-  }
-
-  .ask-button {
-    width: 100%;
-  }
-
-  .speech-interim {
-    bottom: 120px;
-
-    left: 15px;
-    right: 15px;
-  }
-
-  .suggestion-list {
-    flex-direction: column;
-  }
-
-  .suggestion-list button {
-    width: 100%;
-
-    text-align: left;
-  }
-}
-/* =========================================================
-   NAVBAR RIGHT
-   ========================================================= */
-
-.navbar-right {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-
-/* =========================================================
-   LANGUAGE SELECTOR
-   ========================================================= */
-
-.language-selector {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-
-  padding: 7px 10px;
-
-  border: 1px solid rgba(103, 232, 249, 0.12);
-
-  border-radius: 10px;
-
-  background: rgba(8, 47, 73, 0.35);
-}
-
-.language-icon {
   font-size: 14px;
 }
 
-.language-selector select {
-  border: none;
-  outline: none;
+.suggestion-list button:hover {
+  color: #dbeafe;
 
-  background: transparent;
-
-  color: #a5f3fc;
-
-  font-size: 11px;
-  font-weight: 700;
-
-  cursor: pointer;
-}
-
-.language-selector option {
-  background: #020b14;
-  color: #e2e8f0;
-}
-/* =========================================================
-   RESULT ANIMATION
-   ========================================================= */
-
-.results-container {
-  animation: resultsEnter 0.7s
-    cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.result-section {
-  animation: sectionEnter 0.6s ease both;
-}
-
-.result-section:nth-child(2) {
-  animation-delay: 0.08s;
-}
-
-.result-section:nth-child(3) {
-  animation-delay: 0.16s;
-}
-
-.result-section:nth-child(4) {
-  animation-delay: 0.24s;
-}
-
-.result-section:nth-child(5) {
-  animation-delay: 0.32s;
-}
-
-@keyframes resultsEnter {
-
-  from {
-    opacity: 0;
-    transform: translateY(25px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-}
-
-@keyframes sectionEnter {
-
-  from {
-    opacity: 0;
-    transform: translateY(18px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-}
-main {
-  position: relative;
-  overflow: hidden;
-}
-
-main::before {
-  content: "";
-
-  position: absolute;
-
-  top: 0;
-  left: 50%;
-
-  width: 900px;
-  height: 900px;
-
-  transform: translateX(-50%);
+  border-color:
+    rgba(103, 232, 249, 0.30);
 
   background:
-    radial-gradient(
-      circle,
-      rgba(34, 211, 238, 0.055),
-      transparent 65%
-    );
+    rgba(8, 70, 100, 0.40);
 
-  pointer-events: none;
-
-  z-index: 0;
+  transform: translateX(3px);
 }
 
-main > section {
-  position: relative;
-  z-index: 1;
+.suggestion-list button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
 }
+
+
 /* =========================================================
    LOCATION SELECTOR
    ========================================================= */
@@ -2776,53 +2574,94 @@ main > section {
   margin-top: 20px;
 }
 
+.time-picker-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.time-picker {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  min-height: 48px;
+  padding: 0 10px;
+
+  border: 1px solid rgba(103, 232, 249, 0.14);
+  border-radius: 12px;
+  background: rgba(3, 20, 32, 0.82);
+}
+
+.time-picker-icon {
+  margin-right: 4px;
+  font-size: 14px;
+}
+
+.time-picker select {
+  min-width: 42px;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #e2e8f0;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.time-picker select:last-child {
+  min-width: 55px;
+  margin-left: 5px;
+}
+
+.time-picker select option {
+  background: #062033;
+  color: #e2e8f0;
+}
+
+.time-colon {
+  color: #67e8f9;
+  font-weight: 800;
+}
+
+.time-picker-hint {
+  color: #64748b;
+  font-size: 10px;
+  white-space: nowrap;
+}
+
 .departure-time-options {
   display: flex;
   flex-wrap: wrap;
-
   gap: 8px;
-
   margin-top: 10px;
 }
 
 .departure-time-options button {
-  min-width: 75px;
+  min-width: 78px;
+  padding: 9px 12px;
 
-  padding: 9px 14px;
-
-  border:
-    1px solid rgba(103, 232, 249, 0.12);
-
+  border: 1px solid rgba(103, 232, 249, 0.12);
   border-radius: 9px;
 
-  background:
-    rgba(8, 47, 73, 0.25);
-
+  background: rgba(8, 47, 73, 0.25);
   color: #94a3b8;
 
   font-size: 11px;
   font-weight: 700;
+  cursor: pointer;
 }
 
 .departure-time-options button:hover {
-  border-color:
-    rgba(103, 232, 249, 0.35);
-
+  border-color: rgba(103, 232, 249, 0.35);
   color: #67e8f9;
 }
 
-.departure-time-options
-button.departure-time-selected {
-  border-color:
-    rgba(103, 232, 249, 0.55);
-
-  background:
-    rgba(34, 211, 238, 0.1);
-
+.departure-time-options button.departure-time-selected {
+  border-color: rgba(103, 232, 249, 0.55);
+  background: rgba(34, 211, 238, 0.10);
   color: #67e8f9;
-
-  box-shadow:
-    0 0 18px rgba(34, 211, 238, 0.06);
+  box-shadow: 0 0 18px rgba(34, 211, 238, 0.06);
 }
 
 
@@ -2882,4 +2721,14 @@ button.departure-time-selected {
     padding: 10px 5px;
   }
 
+}
+@media (max-width: 520px) {
+  .time-picker-row {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .time-picker-hint {
+    margin-left: 2px;
+  }
 }

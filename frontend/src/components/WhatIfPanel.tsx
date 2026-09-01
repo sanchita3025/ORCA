@@ -14,6 +14,8 @@ function WhatIfPanel({
   loading = false,
 }: WhatIfPanelProps) {
 
+  // Internal values stay in 24-hour format for the app/API.
+  // Users see a clearer 12-hour AM/PM format.
   const times = [
     "06:00",
     "07:00",
@@ -31,6 +33,15 @@ function WhatIfPanel({
     "19:00",
     "20:00",
   ];
+
+  const formatTime = (time: string) => {
+    const [hourString, minute] = time.split(":");
+    const hour = Number(hourString);
+    const period = hour >= 12 ? "PM" : "AM";
+    const displayHour = hour % 12 || 12;
+
+    return `${displayHour}:${minute} ${period}`;
+  };
 
   return (
     <section className="what-if-section">
@@ -82,7 +93,7 @@ function WhatIfPanel({
                   selected
                 }
               >
-                {time}
+                {formatTime(time)}
 
                 {selected && (
                   <span>

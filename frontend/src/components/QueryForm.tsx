@@ -571,6 +571,44 @@ function QueryForm({
     setSelectedTime(time);
   }
 
+  function parseTime12(time: string) {
+    const [hourText, minute] = time.split(":");
+    const hour24 = Number(hourText);
+    const period = hour24 >= 12 ? "PM" : "AM";
+    const hour12 = hour24 % 12 || 12;
+
+    return {
+      hour: String(hour12),
+      minute,
+      period,
+    };
+  }
+
+  function buildTime24(
+    hour: string,
+    minute: string,
+    period: string
+  ) {
+    let hour24 = Number(hour);
+
+    if (period === "AM" && hour24 === 12) {
+      hour24 = 0;
+    }
+
+    if (period === "PM" && hour24 !== 12) {
+      hour24 += 12;
+    }
+
+    return `${String(hour24).padStart(2, "0")}:${minute}`;
+  }
+
+  function formatTime12(time: string) {
+    if (!time) return "Select time";
+
+    const { hour, minute, period } = parseTime12(time);
+    return `${hour}:${minute} ${period}`;
+  }
+
   /*
   =========================================================
   ASK ORCA
@@ -798,6 +836,38 @@ function QueryForm({
       </div>
 
       {/* =================================================
+          TRY ASKING
+      ================================================= */}
+
+      <div className="try-asking">
+
+        <p>TRY ASKING</p>
+
+        <div className="suggestion-list">
+
+          {suggestions.map(
+            (suggestion) => (
+              <button
+                type="button"
+                key={suggestion}
+                onClick={() =>
+                  useSuggestion(
+                    suggestion
+                  )
+                }
+                disabled={loading}
+              >
+                {suggestion}
+                <span aria-hidden="true">→</span>
+              </button>
+            )
+          )}
+
+        </div>
+
+      </div>
+
+      {/* =================================================
           LOCATION
       ================================================= */}
 
@@ -961,20 +1031,103 @@ function QueryForm({
 
           <div className="time-picker-row">
 
-            <input
-              id="departure-time"
-              type="time"
-              value={selectedTime}
-              onChange={(event) =>
+            {(() => {
+              const current = parseTime12(
+                selectedTime || "06:00"
+              );
+
+              const updateTime = (
+                hour: string,
+                minute: string,
+                period: string
+              ) => {
                 handleTimeChange(
-                  event.target.value
-                )
-              }
-              disabled={loading}
-            />
+                  buildTime24(
+                    hour,
+                    minute,
+                    period
+                  )
+                );
+              };
+
+              return (
+                <div
+                  className="time-picker"
+                  aria-label="Departure time"
+                >
+                  <span className="time-picker-icon">🕐</span>
+
+                  <select
+                    id="departure-time-hour"
+                    value={current.hour}
+                    onChange={(event) =>
+                      updateTime(
+                        event.target.value,
+                        current.minute,
+                        current.period
+                      )
+                    }
+                    disabled={loading}
+                    aria-label="Hour"
+                  >
+                    {Array.from(
+                      { length: 12 },
+                      (_, index) => String(index + 1)
+                    ).map((hour) => (
+                      <option key={hour} value={hour}>
+                        {hour}
+                      </option>
+                    ))}
+                  </select>
+
+                  <span className="time-colon">:</span>
+
+                  <select
+                    id="departure-time-minute"
+                    value={current.minute}
+                    onChange={(event) =>
+                      updateTime(
+                        current.hour,
+                        event.target.value,
+                        current.period
+                      )
+                    }
+                    disabled={loading}
+                    aria-label="Minute"
+                  >
+                    {["00", "15", "30", "45"].map(
+                      (minute) => (
+                        <option key={minute} value={minute}>
+                          {minute}
+                        </option>
+                      )
+                    )}
+                  </select>
+
+                  <select
+                    id="departure-time-period"
+                    value={current.period}
+                    onChange={(event) =>
+                      updateTime(
+                        current.hour,
+                        current.minute,
+                        event.target.value
+                      )
+                    }
+                    disabled={loading}
+                    aria-label="AM or PM"
+                  >
+                    <option value="AM">AM</option>
+                    <option value="PM">PM</option>
+                  </select>
+                </div>
+              );
+            })()}
 
             <span className="time-picker-hint">
-              Choose any time
+              {selectedTime
+                ? formatTime12(selectedTime)
+                : "Choose a time"}
             </span>
 
           </div>
@@ -1000,7 +1153,7 @@ function QueryForm({
                   }
                   disabled={loading}
                 >
-                  {time}
+                  {formatTime12(time)}
                 </button>
               )
             )}
@@ -1040,36 +1193,6 @@ function QueryForm({
         </div>
       )}
 
-      {/* =================================================
-          SUGGESTIONS
-      ================================================= */}
-
-      <div className="try-asking">
-
-        <p>TRY ASKING</p>
-
-        <div className="suggestion-list">
-
-          {suggestions.map(
-            (suggestion) => (
-              <button
-                type="button"
-                key={suggestion}
-                onClick={() =>
-                  useSuggestion(
-                    suggestion
-                  )
-                }
-                disabled={loading}
-              >
-                {suggestion}
-              </button>
-            )
-          )}
-
-        </div>
-
-      </div>
 
     </div>
   );
