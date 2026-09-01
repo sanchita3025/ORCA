@@ -7,6 +7,7 @@ interface RiskCardProps {
 export default function RiskCard({
   score = 0,
   level = "UNKNOWN",
+<<<<<<< HEAD
   message,
 }: RiskCardProps) {
 
@@ -27,6 +28,14 @@ export default function RiskCard({
   const getRiskClass = () => {
     switch (safeLevel) {
 
+=======
+  message = "Risk information is currently unavailable.",
+}: RiskCardProps) {
+  const safeLevel = String(level || "UNKNOWN").toUpperCase();
+
+  const getRiskClass = () => {
+    switch (safeLevel) {
+>>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
       case "LOW":
         return "risk-low";
 
@@ -44,6 +53,7 @@ export default function RiskCard({
     }
   };
 
+<<<<<<< HEAD
   const displayMessage =
     message?.trim() ||
     "Risk information is currently unavailable.";
@@ -55,6 +65,11 @@ export default function RiskCard({
 
       <div className="risk-header">
 
+=======
+  return (
+    <div className={`risk-card ${getRiskClass()}`}>
+      <div className="risk-header">
+>>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
         <span className="risk-label">
           ORCA RISK ASSESSMENT
         </span>
@@ -62,6 +77,7 @@ export default function RiskCard({
         <span className="risk-level">
           {safeLevel}
         </span>
+<<<<<<< HEAD
 
       </div>
 
@@ -81,6 +97,18 @@ export default function RiskCard({
         {displayMessage}
       </p>
 
+=======
+      </div>
+
+      <div className="risk-score">
+        {Math.round(score)}
+        <span>/ 100</span>
+      </div>
+
+      <p className="risk-message">
+        {message}
+      </p>
+>>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
     </div>
   );
 }

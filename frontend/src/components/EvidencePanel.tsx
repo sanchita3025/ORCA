@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 type VerificationData = {
   verified?: boolean;
   confidence?: number;
@@ -5,11 +6,19 @@ type VerificationData = {
 
 type EvidencePanelProps = {
   verification?: VerificationData;
+=======
+type EvidencePanelProps = {
+  verification?: {
+    verified?: boolean;
+    confidence?: number;
+  };
+>>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
 };
 
 function EvidencePanel({
   verification,
 }: EvidencePanelProps) {
+<<<<<<< HEAD
 
   const verified =
     verification?.verified ??
@@ -47,6 +56,14 @@ function EvidencePanel({
         confidence
       )
     );
+=======
+  const verified =
+    verification?.verified ?? false;
+
+  const confidence = Math.round(
+    (verification?.confidence ?? 0) * 100
+  );
+>>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
 
   const evidence = [
     {
@@ -56,7 +73,10 @@ function EvidencePanel({
       source: "Weather data service",
       time: "Recent",
     },
+<<<<<<< HEAD
 
+=======
+>>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
     {
       icon: "🌊",
       name: "Ocean",
@@ -64,7 +84,10 @@ function EvidencePanel({
       source: "Marine data service",
       time: "Recent",
     },
+<<<<<<< HEAD
 
+=======
+>>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
     {
       icon: "🛰️",
       name: "Satellite / PFZ",
@@ -72,7 +95,10 @@ function EvidencePanel({
       source: "INCOIS / Satellite data",
       time: "Recent",
     },
+<<<<<<< HEAD
 
+=======
+>>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
     {
       icon: "🗺️",
       name: "GIS",
@@ -85,12 +111,21 @@ function EvidencePanel({
   return (
     <div className="evidence-panel">
 
+<<<<<<< HEAD
       {/* VERIFICATION SUMMARY */}
+=======
+      {/* ==========================================
+          VERIFICATION SUMMARY
+      ========================================== */}
+>>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
 
       <div className="evidence-verification">
 
         <div>
+<<<<<<< HEAD
 
+=======
+>>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
           <strong>
             Overall verification
           </strong>
@@ -100,24 +135,41 @@ function EvidencePanel({
               ? "✓ Verified"
               : "⚠ Partial verification"}
           </span>
+<<<<<<< HEAD
 
         </div>
 
         <div>
 
+=======
+        </div>
+
+        <div>
+>>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
           <strong>
             Confidence
           </strong>
 
           <span>
+<<<<<<< HEAD
             {safeConfidence}%
           </span>
 
+=======
+            {confidence}%
+          </span>
+>>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
         </div>
 
       </div>
 
+<<<<<<< HEAD
       {/* CONFIDENCE */}
+=======
+      {/* ==========================================
+          CONFIDENCE BAR
+      ========================================== */}
+>>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
 
       <div className="evidence-confidence">
 
@@ -128,7 +180,11 @@ function EvidencePanel({
           </span>
 
           <strong>
+<<<<<<< HEAD
             {safeConfidence}%
+=======
+            {confidence}%
+>>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
           </strong>
 
         </div>
@@ -137,8 +193,12 @@ function EvidencePanel({
 
           <div
             style={{
+<<<<<<< HEAD
               width:
                 `${safeConfidence}%`,
+=======
+              width: `${confidence}%`,
+>>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
             }}
           />
 
@@ -146,6 +206,7 @@ function EvidencePanel({
 
       </div>
 
+<<<<<<< HEAD
       {/* SOURCES */}
 
       <div className="evidence-grid">
@@ -192,6 +253,54 @@ function EvidencePanel({
 
           )
         )}
+=======
+      {/* ==========================================
+          DATA SOURCES
+      ========================================== */}
+
+      <div className="evidence-grid">
+
+        {evidence.map((item) => (
+
+          <div
+            className="evidence-card"
+            key={item.name}
+          >
+
+            <div className="evidence-icon">
+              {item.icon}
+            </div>
+
+            <div className="evidence-info">
+
+              <h3>
+                {item.name}
+              </h3>
+
+              <div className="evidence-status">
+
+                <span>
+                  ✓
+                </span>
+
+                {item.status}
+
+              </div>
+
+              <p>
+                {item.source}
+              </p>
+
+              <small>
+                Updated: {item.time}
+              </small>
+
+            </div>
+
+          </div>
+
+        ))}
+>>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
 
       </div>
 

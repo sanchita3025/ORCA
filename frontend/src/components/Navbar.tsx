@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useState } from "react";
 
 const LANGUAGES = [
@@ -65,16 +66,25 @@ function Navbar() {
   return (
     <nav className="navbar">
       {/* LEFT */}
+=======
+function Navbar() {
+  return (
+    <nav className="navbar">
+>>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
       <div className="navbar-brand">
         <div className="orca-logo">🐋</div>
 
         <div>
           <h2>ORCA</h2>
+<<<<<<< HEAD
 
+=======
+>>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
           <span>Marine Ecosystem Intelligence</span>
         </div>
       </div>
 
+<<<<<<< HEAD
       {/* RIGHT */}
       <div className="navbar-right">
         {/* LANGUAGE SELECTOR */}
@@ -142,6 +152,11 @@ function Navbar() {
           <span className="status-dot" />
           System Online
         </div>
+=======
+      <div className="navbar-status">
+        <span className="status-dot"></span>
+        System Online
+>>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
       </div>
     </nav>
   );

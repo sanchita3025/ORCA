@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useEffect, useState } from "react";
 
 function LoadingScreen() {
@@ -49,16 +50,23 @@ function LoadingScreen() {
 
     return () => clearInterval(interval);
   }, [steps.length]);
+=======
+function LoadingScreen() {
+>>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
 
   return (
     <div className="loading-screen">
 
+<<<<<<< HEAD
       {/* ORCA ICON */}
 
+=======
+>>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
       <div className="loading-orca">
         🐋
       </div>
 
+<<<<<<< HEAD
       {/* TITLE */}
 
       <p className="section-label">
@@ -160,6 +168,37 @@ function LoadingScreen() {
         <span className="status-dot" />
 
         Collaborative agents active
+=======
+      <h2>
+        ORCA IS ANALYZING...
+      </h2>
+
+      <div className="loading-steps">
+
+        <p>
+          ✓ Understanding question
+        </p>
+
+        <p>
+          ✓ Checking weather
+        </p>
+
+        <p>
+          ✓ Checking ocean
+        </p>
+
+        <p>
+          ✓ Checking satellite
+        </p>
+
+        <p>
+          ✓ Checking GIS
+        </p>
+
+        <p>
+          ⏳ Calculating risk
+        </p>
+>>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
 
       </div>
 
@@ -167,4 +206,8 @@ function LoadingScreen() {
   );
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
 export default LoadingScreen;

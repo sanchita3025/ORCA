@@ -1,10 +1,15 @@
 type WhatIfPanelProps = {
+<<<<<<< HEAD
   onTimeChange: (
     time: string
   ) => void;
 
   selectedTime: string;
 
+=======
+  onTimeChange: (time: string) => void;
+  selectedTime: string;
+>>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
   loading?: boolean;
 };
 
@@ -14,6 +19,7 @@ function WhatIfPanel({
   loading = false,
 }: WhatIfPanelProps) {
 
+<<<<<<< HEAD
   // Internal values stay in 24-hour format for the app/API.
   // Users see a clearer 12-hour AM/PM format.
   const times = [
@@ -43,14 +49,27 @@ function WhatIfPanel({
     return `${displayHour}:${minute} ${period}`;
   };
 
+=======
+  const times = [
+    "06:00",
+    "08:00",
+    "10:00",
+    "12:00",
+  ];
+
+>>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
   return (
     <section className="what-if-section">
 
       <div className="section-heading">
 
+<<<<<<< HEAD
         <span>
           🔄
         </span>
+=======
+        <span>🔄</span>
+>>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
 
         <div>
 
@@ -60,8 +79,12 @@ function WhatIfPanel({
 
           <p>
             See how changing the departure
+<<<<<<< HEAD
             time affects the complete marine
             assessment.
+=======
+            time affects the assessment.
+>>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
           </p>
 
         </div>
@@ -70,6 +93,7 @@ function WhatIfPanel({
 
       <div className="time-options">
 
+<<<<<<< HEAD
         {times.map(
           (time) => {
 
@@ -104,10 +128,32 @@ function WhatIfPanel({
             );
           }
         )}
+=======
+        {times.map((time) => (
+
+          <button
+            key={time}
+            type="button"
+            className={
+              selectedTime === time
+                ? "time-selected"
+                : ""
+            }
+            onClick={() =>
+              onTimeChange(time)
+            }
+            disabled={loading}
+          >
+            {time}
+          </button>
+
+        ))}
+>>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
 
       </div>
 
       {loading && (
+<<<<<<< HEAD
         <div className="what-if-loading">
 
           <span className="status-dot" />
@@ -117,6 +163,14 @@ function WhatIfPanel({
           and GIS conditions...
 
         </div>
+=======
+
+        <p className="what-if-loading">
+          🐋 ORCA is recalculating the
+          conditions...
+        </p>
+
+>>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
       )}
 
     </section>
