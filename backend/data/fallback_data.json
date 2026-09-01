@@ -1,0 +1,16 @@
+{
+    "weather": {
+        "temperature": 28,
+        "wind_speed": 18,
+        "wind_direction": 120,
+        "precipitation": 20,
+        "condition": "Partly cloudy"
+    },
+
+    "ocean": {
+        "wave_height": 1.4,
+        "wave_period": 7,
+        "current_speed": 0.8,
+        "sst": 28.4
+    }
+}
