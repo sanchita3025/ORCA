@@ -21,7 +21,6 @@ type AssessmentLocation = {
   longitude: number;
 };
 
-<<<<<<< HEAD
 type Assessment = {
   answer: string;
 
@@ -1396,8 +1395,6 @@ const translations: Record<string, Translation> = {
    APP
 ========================================================= */
 
-=======
->>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
 function App() {
   const [showWelcome, setShowWelcome] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -1415,7 +1412,6 @@ function App() {
       longitude: 86.61,
     });
 
-<<<<<<< HEAD
   const [assessment, setAssessment] = useState<Assessment>({
     answer: demoData.answer,
 
@@ -1645,100 +1641,12 @@ function App() {
       answer: timeData.message,
 
       risk: {
-=======
-  const [assessment, setAssessment] = useState({
-    ...demoData,
-    risk: {
-      ...demoData.risk,
-      message:
-        "Conditions are moderately suitable based on the available marine data.",
-    },
-  });
-
-  // --------------------------------------------------
-  // WELCOME SCREEN
-  // --------------------------------------------------
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowWelcome(false);
-    }, 3000);
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  function handleWelcomeComplete() {
-    setShowWelcome(false);
-  }
-
-  // --------------------------------------------------
-  // RISK LEVEL
-  // --------------------------------------------------
-
-  function getRiskLevel(score: number) {
-    if (score <= 25) return "LOW";
-    if (score <= 50) return "MODERATE";
-    if (score <= 75) return "HIGH";
-    return "SEVERE";
-  }
-
-  // --------------------------------------------------
-  // DEMO TIME CALCULATION
-  // --------------------------------------------------
-
-  function createTimeAdjustedAssessment(time: string) {
-    const baseScore = Number(demoData.risk.score || 0);
-
-    const adjustments: Record<string, number> = {
-      "06:00": 0,
-      "08:00": 6,
-      "10:00": 12,
-      "12:00": 18,
-    };
-
-    const adjustment = adjustments[time] ?? 0;
-
-    const newScore = Math.min(
-      100,
-      Math.max(0, baseScore + adjustment)
-    );
-
-    const newLevel = getRiskLevel(newScore);
-
-    let newAnswer =
-      "Conditions are moderately suitable based on the available marine data.";
-
-    if (time === "08:00") {
-      newAnswer =
-        "Conditions may become less favorable by 8 AM. An earlier departure is preferable.";
-    }
-
-    if (time === "10:00") {
-      newAnswer =
-        "Risk increases by 10 AM. ORCA recommends considering an earlier departure.";
-    }
-
-    if (time === "12:00") {
-      newAnswer =
-        "Conditions are less favorable around noon in this demonstration scenario.";
-    }
-
-    return {
-      ...demoData,
-
-      answer: newAnswer,
-
-      risk: {
-        ...demoData.risk,
-
->>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
         score: newScore,
 
         level: newLevel,
 
         message:
           adjustment === 0
-<<<<<<< HEAD
             ? "The selected departure time has the lowest demonstration risk among the available options."
             : `Changing the departure time to ${time} increases the demonstration risk score by ${adjustment} points.`,
       },
@@ -1771,17 +1679,10 @@ function App() {
       gis:
         demoData.gis,
 
-=======
-            ? "Current demonstration conditions are moderately suitable."
-            : `Changing the departure time to ${time} increases the demonstration risk score by ${adjustment} points.`,
-      },
-
->>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
       breakdown: {
         ...demoData.breakdown,
 
         wind:
-<<<<<<< HEAD
           Number(
             demoData.breakdown.wind ?? 0
           ) +
@@ -1924,48 +1825,12 @@ function App() {
   ) {
     setQuery(data.question);
 
-=======
-          Number(demoData.breakdown?.wind ?? 0) +
-          Math.round(adjustment * 0.3),
-
-        waves:
-          Number(
-            demoData.breakdown?.waves ??
-              demoData.breakdown?.wave ??
-              0
-          ) +
-          Math.round(adjustment * 0.4),
-
-        weather:
-          Number(demoData.breakdown?.weather ?? 0) +
-          Math.round(adjustment * 0.2),
-      },
-    };
-  }
-
-  // --------------------------------------------------
-  // STEP 6 — HANDLE ASK ORCA
-  // --------------------------------------------------
-
-  function handleAsk(data: {
-    question: string;
-    latitude: number;
-    longitude: number;
-    datetime: string;
-    locationName: string;
-  }) {
-    // Save the user's question
-    setQuery(data.question);
-
-    // Save selected location
->>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
     setAssessmentLocation({
       name: data.locationName,
       latitude: data.latitude,
       longitude: data.longitude,
     });
 
-<<<<<<< HEAD
     const submittedTime =
       data.datetime
         .split("T")[1]
@@ -2087,115 +1952,25 @@ function App() {
   /* =========================================================
      WELCOME
   ========================================================= */
-=======
-    // Extract time from datetime
-    const submittedTime =
-      data.datetime.split("T")[1]?.slice(0, 5) ||
-      "06:00";
-
-    setSelectedTime(submittedTime);
-
-    // Reset error
-    setError(false);
-
-    // Start analysis
-    setLoading(true);
-
-    // Hide old result while analyzing
-    setShowResults(false);
-
-    // Demo analysis delay
-    setTimeout(() => {
-      try {
-        const result =
-          createTimeAdjustedAssessment(
-            submittedTime
-          );
-
-        // Store new assessment
-        setAssessment(result);
-
-        // Stop loading
-        setLoading(false);
-
-        // Show result
-        setShowResults(true);
-
-        // Scroll to result
-        setTimeout(() => {
-          document
-            .getElementById("assessment-results")
-            ?.scrollIntoView({
-              behavior: "smooth",
-              block: "start",
-            });
-        }, 100);
-      } catch (err) {
-        console.error(err);
-
-        setLoading(false);
-        setError(true);
-      }
-    }, 1500);
-  }
-
-  // --------------------------------------------------
-  // STEP 6B — WHAT IF
-  // --------------------------------------------------
-
-  function handleTimeChange(time: string) {
-    setSelectedTime(time);
-
-    setLoading(true);
-
-    setTimeout(() => {
-      try {
-        const result =
-          createTimeAdjustedAssessment(time);
-
-        setAssessment(result);
-
-        setLoading(false);
-      } catch (err) {
-        console.error(err);
-
-        setLoading(false);
-        setError(true);
-      }
-    }, 700);
-  }
-
-  // --------------------------------------------------
-  // SCREENS
-  // --------------------------------------------------
->>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
 
   if (showWelcome) {
     return (
       <WelcomeScreen
-<<<<<<< HEAD
         onComplete={
           handleWelcomeComplete
         }
-=======
-        onComplete={handleWelcomeComplete}
->>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
       />
     );
   }
 
-<<<<<<< HEAD
   /* =========================================================
      ERROR
   ========================================================= */
 
-=======
->>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
   if (error) {
     return <ErrorScreen />;
   }
 
-<<<<<<< HEAD
   /* =========================================================
      MAIN APP
   ========================================================= */
@@ -2215,31 +1990,11 @@ function App() {
 
           <div className="hero-orb hero-orb-one" />
 
-=======
-  // --------------------------------------------------
-  // MAIN APP
-  // --------------------------------------------------
-
-  return (
-    <div className="app">
-      <Navbar />
-
-      <main>
-        {/* =========================================
-            HERO
-        ========================================= */}
-
-        <section className="hero-section">
-          <div className="hero-grid" />
-
-          <div className="hero-orb hero-orb-one" />
->>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
           <div className="hero-orb hero-orb-two" />
 
           <div className="hero-content">
 
             <div className="hero-eyebrow">
-<<<<<<< HEAD
 
               <span className="status-dot" />
 
@@ -2292,41 +2047,6 @@ function App() {
         </section>
 
         {/* QUERY */}
-=======
-              <span className="status-dot" />
-
-              MULTI-AGENT MARINE INTELLIGENCE
-            </div>
-
-            <h1>
-              Understand the ocean.
-              <span>
-                Make better decisions.
-              </span>
-            </h1>
-
-            <p className="hero-description">
-              ORCA combines marine, weather,
-              ocean, satellite and geographic
-              intelligence to reason about
-              real-world marine conditions.
-            </p>
-
-            <div className="hero-agent-row">
-              <span>🌊 Ocean Intelligence</span>
-              <span>☁ Weather Analysis</span>
-              <span>🛰 Satellite Data</span>
-              <span>📍 GIS Intelligence</span>
-              <span>🤖 AI Reasoning</span>
-            </div>
-
-          </div>
-        </section>
-
-        {/* =========================================
-            QUERY
-        ========================================= */}
->>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
 
         <section className="query-section">
 
@@ -2335,7 +2055,6 @@ function App() {
             <div>
 
               <p className="section-label">
-<<<<<<< HEAD
                 {t("askOrca")}
               </p>
 
@@ -2347,33 +2066,12 @@ function App() {
 
               <p>
                 {t("questionDescription")}
-=======
-                ASK ORCA
-              </p>
-
-              <h2>
-                Ask a question about the{" "}
-                <span>
-                  marine environment.
-                </span>
-              </h2>
-
-              <p>
-                Tell ORCA what you want to know,
-                choose a location and departure
-                time. Coordinates are handled
-                automatically.
->>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
               </p>
 
             </div>
 
             <div className="query-badge">
-<<<<<<< HEAD
               {t("decisionSupport")}
-=======
-              ● AI DECISION SUPPORT
->>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
             </div>
 
           </div>
@@ -2385,13 +2083,7 @@ function App() {
 
         </section>
 
-<<<<<<< HEAD
         {/* AGENT NETWORK */}
-=======
-        {/* =========================================
-            AGENT NETWORK
-        ========================================= */}
->>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
 
         <section className="agent-network-section">
 
@@ -2400,24 +2092,16 @@ function App() {
             <div className="agent-network-header">
 
               <h2>
-<<<<<<< HEAD
                 {t("collaborativeNetwork")}
-=======
-                Collaborative Agent Network
->>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
               </h2>
 
               <div className="network-status">
 
                 <span className="status-dot" />
 
-<<<<<<< HEAD
                 {loading
                   ? t("analyzing")
                   : t("systemReady")}
-=======
-                SYSTEM READY
->>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
 
               </div>
 
@@ -2426,15 +2110,11 @@ function App() {
             <div className="agent-flow">
 
               <div className="agent-node">
-<<<<<<< HEAD
 
-=======
->>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
                 <div className="agent-icon">
                   🌊
                 </div>
 
-<<<<<<< HEAD
                 <strong>
                   {t("ocean")}
                 </strong>
@@ -2443,13 +2123,6 @@ function App() {
                   {t("wavesCurrents")}
                 </span>
 
-=======
-                <strong>OCEAN</strong>
-
-                <span>
-                  Waves & currents
-                </span>
->>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
               </div>
 
               <div className="flow-arrow">
@@ -2457,15 +2130,11 @@ function App() {
               </div>
 
               <div className="agent-node">
-<<<<<<< HEAD
 
-=======
->>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
                 <div className="agent-icon">
                   ☁
                 </div>
 
-<<<<<<< HEAD
                 <strong>
                   {t("weather")}
                 </strong>
@@ -2474,13 +2143,6 @@ function App() {
                   {t("windRainfall")}
                 </span>
 
-=======
-                <strong>WEATHER</strong>
-
-                <span>
-                  Wind & rainfall
-                </span>
->>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
               </div>
 
               <div className="flow-arrow">
@@ -2488,15 +2150,11 @@ function App() {
               </div>
 
               <div className="agent-node">
-<<<<<<< HEAD
 
-=======
->>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
                 <div className="agent-icon">
                   🛰
                 </div>
 
-<<<<<<< HEAD
                 <strong>
                   {t("satellite")}
                 </strong>
@@ -2505,13 +2163,6 @@ function App() {
                   {t("marineObservations")}
                 </span>
 
-=======
-                <strong>SATELLITE</strong>
-
-                <span>
-                  Marine observations
-                </span>
->>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
               </div>
 
               <div className="flow-arrow">
@@ -2524,19 +2175,12 @@ function App() {
                   📍
                 </div>
 
-<<<<<<< HEAD
                 <strong>
                   {t("gis")}
                 </strong>
 
                 <span>
                   {t("locationConstraints")}
-=======
-                <strong>GIS</strong>
-
-                <span>
-                  Location constraints
->>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
                 </span>
 
               </div>
@@ -2552,19 +2196,11 @@ function App() {
                 </div>
 
                 <strong>
-<<<<<<< HEAD
                   {t("orcaReasoner")}
                 </strong>
 
                 <span>
                   {t("finalAssessment")}
-=======
-                  ORCA REASONER
-                </strong>
-
-                <span>
-                  Final assessment
->>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
                 </span>
 
               </div>
@@ -2575,19 +2211,12 @@ function App() {
 
         </section>
 
-<<<<<<< HEAD
         {/* LOADING */}
-=======
-        {/* =========================================
-            ANALYSIS LOADING
-        ========================================= */}
->>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
 
         {loading && (
           <LoadingScreen />
         )}
 
-<<<<<<< HEAD
         {/* RESULTS */}
 
         {showResults &&
@@ -2836,226 +2465,6 @@ function App() {
       </main>
 
       {/* FOOTER */}
-=======
-        {/* =========================================
-            RESULTS
-        ========================================= */}
-
-        {showResults && !loading && (
-
-          <section
-            id="assessment-results"
-            className="content-section results-container"
-          >
-
-            {/* RESULT HEADER */}
-
-            <div className="result-header">
-
-              <div>
-
-                <p className="section-label">
-                  ORCA ASSESSMENT
-                </p>
-
-                <h2>
-                  Marine Risk Assessment
-                </h2>
-
-                <p className="query-preview">
-                  “{query}”
-                </p>
-
-                <p className="query-location">
-                  📍 {assessmentLocation.name}
-                  {" · "}
-                  🕐 {selectedTime}
-                </p>
-
-              </div>
-
-              <div className="live-badge">
-                <span />
-                DEMO ANALYSIS
-              </div>
-
-            </div>
-
-            {/* RECOMMENDATION */}
-
-            <div className="recommendation-card">
-
-              <div className="recommendation-icon">
-                ✓
-              </div>
-
-              <div className="recommendation-content">
-
-                <span className="section-label">
-                  ORCA RECOMMENDATION
-                </span>
-
-                <h3>
-                  {assessment.answer}
-                </h3>
-
-                <p>
-                  This assessment is currently
-                  powered by ORCA demonstration
-                  data. Live marine sources can
-                  be connected to the same
-                  interface later.
-                </p>
-
-              </div>
-
-            </div>
-
-            {/* RISK */}
-
-            <div className="result-section">
-
-              <RiskCard
-                score={assessment.risk.score}
-                level={assessment.risk.level}
-                message={
-                  assessment.risk.message
-                }
-              />
-
-            </div>
-
-            {/* MARINE CONDITIONS */}
-
-            <div className="result-section">
-
-              <div className="section-heading">
-
-                <p className="section-label">
-                  MARINE CONDITIONS
-                </p>
-
-                <h2>
-                  Environmental Overview
-                </h2>
-
-              </div>
-
-              <MarineCards
-                weather={assessment.weather}
-                ocean={assessment.ocean}
-                satellite={
-                  assessment.satellite
-                }
-                gis={assessment.gis}
-              />
-
-            </div>
-
-            {/* MAP */}
-
-            <div className="result-section">
-
-              <div className="section-heading">
-
-                <p className="section-label">
-                  SPATIAL INTELLIGENCE
-                </p>
-
-                <h2>
-                  {assessmentLocation.name}
-                </h2>
-
-              </div>
-
-              <MarineMap
-                latitude={
-                  assessmentLocation.latitude
-                }
-                longitude={
-                  assessmentLocation.longitude
-                }
-                locationName={
-                  assessmentLocation.name
-                }
-              />
-
-            </div>
-
-            {/* RISK BREAKDOWN */}
-
-            <div className="result-section">
-
-              <div className="section-heading">
-
-                <p className="section-label">
-                  REASONING
-                </p>
-
-                <h2>
-                  Risk Breakdown
-                </h2>
-
-              </div>
-
-              <RiskBreakdown
-                breakdown={
-                  assessment.breakdown
-                }
-              />
-
-            </div>
-
-            {/* EVIDENCE */}
-
-            <div className="result-section">
-
-              <div className="section-heading">
-
-                <p className="section-label">
-                  EVIDENCE
-                </p>
-
-                <h2>
-                  Data Verification
-                </h2>
-
-              </div>
-
-              <EvidencePanel
-                verification={
-                  assessment.verification
-                }
-              />
-
-            </div>
-
-            {/* WHAT IF */}
-
-            <div className="result-section">
-
-              <WhatIfPanel
-                selectedTime={
-                  selectedTime
-                }
-                onTimeChange={
-                  handleTimeChange
-                }
-                loading={loading}
-              />
-
-            </div>
-
-          </section>
-
-        )}
-
-      </main>
-
-      {/* =========================================
-          FOOTER
-      ========================================= */}
->>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
 
       <footer>
 
@@ -3072,12 +2481,7 @@ function App() {
             </strong>
 
             <span>
-<<<<<<< HEAD
               {t("footerDescription")}
-=======
-              Marine Ecosystem Reasoning
-              with Collaborative Agents
->>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
             </span>
 
           </div>
@@ -3085,19 +2489,11 @@ function App() {
         </div>
 
         <p>
-<<<<<<< HEAD
           {t("footerText")}
         </p>
 
         <div className="footer-tech">
           {t("footerTech")}
-=======
-          AI-powered marine decision support
-        </p>
-
-        <div className="footer-tech">
-          SIH 2026 • MARINE INTELLIGENCE
->>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
         </div>
 
       </footer>

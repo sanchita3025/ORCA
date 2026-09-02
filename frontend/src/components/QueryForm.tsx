@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { useEffect, useRef, useState } from "react";
 
 type LocationResult = {
@@ -6,9 +5,6 @@ type LocationResult = {
   latitude: number;
   longitude: number;
 };
-=======
-import { useEffect, useState } from "react";
->>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
 
 type QueryFormProps = {
   onAsk: (data: {
@@ -22,7 +18,6 @@ type QueryFormProps = {
   loading?: boolean;
 };
 
-<<<<<<< HEAD
 interface SpeechRecognitionEvent extends Event {
   results: SpeechRecognitionResultList;
 }
@@ -63,58 +58,6 @@ function getTodayString() {
   const year = now.getFullYear();
   const month = String(now.getMonth() + 1).padStart(2, "0");
   const day = String(now.getDate()).padStart(2, "0");
-=======
-type LocationOption = {
-  name: string;
-  latitude: number;
-  longitude: number;
-};
-
-const locations: LocationOption[] = [
-  {
-    name: "Paradip Coast",
-    latitude: 20.31,
-    longitude: 86.61,
-  },
-  {
-    name: "Gopalpur Coast",
-    latitude: 19.27,
-    longitude: 84.91,
-  },
-  {
-    name: "Puri Coast",
-    latitude: 19.81,
-    longitude: 85.83,
-  },
-  {
-    name: "Chilika Lake",
-    latitude: 19.72,
-    longitude: 85.32,
-  },
-  {
-    name: "Visakhapatnam Coast",
-    latitude: 17.69,
-    longitude: 83.22,
-  },
-];
-
-/* -----------------------------------------
-   GET LOCAL DATE
------------------------------------------ */
-
-function getTodayDate() {
-  const today = new Date();
-
-  const year = today.getFullYear();
-
-  const month = String(
-    today.getMonth() + 1
-  ).padStart(2, "0");
-
-  const day = String(
-    today.getDate()
-  ).padStart(2, "0");
->>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
 
   return `${year}-${month}-${day}`;
 }
@@ -123,7 +66,6 @@ function QueryForm({
   onAsk,
   loading = false,
 }: QueryFormProps) {
-<<<<<<< HEAD
   const [question, setQuestion] = useState("");
 
   /*
@@ -172,32 +114,12 @@ function QueryForm({
   =========================================================
   */
 
-=======
-  const [question, setQuestion] =
-    useState("");
-
-  const [location, setLocation] =
-    useState<LocationOption>(
-      locations[0]
-    );
-
-  const [search, setSearch] =
-    useState("");
-
-  const [date, setDate] =
-    useState(getTodayDate());
-
-  const [time, setTime] =
-    useState("06:00");
-
->>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
   const [isListening, setIsListening] =
     useState(false);
 
   const [speechSupported, setSpeechSupported] =
     useState(true);
 
-<<<<<<< HEAD
   const [speechError, setSpeechError] =
     useState("");
 
@@ -215,49 +137,6 @@ function QueryForm({
   SPEECH RECOGNITION
   =========================================================
   */
-=======
-  const [gettingLocation, setGettingLocation] =
-    useState(false);
-
-  const [showLocationOptions, setShowLocationOptions] =
-    useState(false);
-
-  /*
-   * --------------------------------------------------
-   * QUICK QUESTIONS
-   * --------------------------------------------------
-   */
-
-  const quickQuestions = [
-    "Can I go fishing tomorrow morning?",
-    "Is the sea safe for fishing today?",
-    "Will the weather be suitable for my trip?",
-    "What time is safest to go to sea?",
-  ];
-
-  /*
-   * --------------------------------------------------
-   * LOCATION SEARCH
-   * --------------------------------------------------
-   */
-
-  const filteredLocations =
-    search.trim().length === 0
-      ? locations
-      : locations.filter((item) =>
-          item.name
-            .toLowerCase()
-            .includes(
-              search.toLowerCase()
-            )
-        );
-
-  /*
-   * --------------------------------------------------
-   * SPEECH SUPPORT
-   * --------------------------------------------------
-   */
->>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
 
   useEffect(() => {
     const SpeechRecognition =
@@ -266,7 +145,6 @@ function QueryForm({
 
     if (!SpeechRecognition) {
       setSpeechSupported(false);
-<<<<<<< HEAD
       return;
     }
 
@@ -277,49 +155,10 @@ function QueryForm({
 
     recognition.continuous = true;
     recognition.interimResults = true;
-=======
-    }
-  }, []);
-
-  /*
-   * --------------------------------------------------
-   * VOICE INPUT
-   * --------------------------------------------------
-   */
-
-  function startVoiceInput() {
-    const SpeechRecognition =
-      window.SpeechRecognition ||
-      window.webkitSpeechRecognition;
-
-    if (!SpeechRecognition) {
-      alert(
-        "Voice input is not supported in this browser. Please use Google Chrome."
-      );
-
-      return;
-    }
-
-    const recognition =
-      new SpeechRecognition();
-
-    recognition.continuous = false;
-
-    recognition.interimResults = false;
-
-    /*
-     * English for now.
-     *
-     * In Step 11–14 we will connect this
-     * to the selected Indian language.
-     */
-
->>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
     recognition.lang = "en-IN";
 
     recognition.onstart = () => {
       setIsListening(true);
-<<<<<<< HEAD
       setSpeechError("");
     };
 
@@ -365,33 +204,10 @@ function QueryForm({
     recognition.onerror = (event) => {
       console.error(
         "ORCA Speech Recognition Error:",
-=======
-    };
-
-    recognition.onresult = (
-      event: any
-    ) => {
-      const transcript =
-        event.results[0][0].transcript;
-
-      setQuestion((previous) =>
-        previous.trim()
-          ? `${previous} ${transcript}`
-          : transcript
-      );
-    };
-
-    recognition.onerror = (
-      event: any
-    ) => {
-      console.error(
-        "Speech recognition error:",
->>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
         event.error
       );
 
       setIsListening(false);
-<<<<<<< HEAD
 
       switch (event.error) {
         case "not-allowed":
@@ -427,13 +243,10 @@ function QueryForm({
             `Speech recognition error: ${event.error}`
           );
       }
-=======
->>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
     };
 
     recognition.onend = () => {
       setIsListening(false);
-<<<<<<< HEAD
       setInterimText("");
     };
 
@@ -573,34 +386,13 @@ function QueryForm({
     if (!navigator.geolocation) {
       setLocationError(
         "Geolocation is not supported by this browser."
-=======
-    };
-
-    recognition.start();
-  }
-
-  /*
-   * --------------------------------------------------
-   * CURRENT LOCATION
-   * --------------------------------------------------
-   */
-
-  function useCurrentLocation() {
-    if (!navigator.geolocation) {
-      alert(
-        "Location services are not supported by this browser."
->>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
       );
 
       return;
     }
 
-<<<<<<< HEAD
     setLocationSearching(true);
     setLocationError("");
-=======
-    setGettingLocation(true);
->>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
 
     navigator.geolocation.getCurrentPosition(
       async (position) => {
@@ -611,7 +403,6 @@ function QueryForm({
           position.coords.longitude;
 
         let locationName =
-<<<<<<< HEAD
           "Current location";
 
         try {
@@ -628,23 +419,6 @@ function QueryForm({
                   "application/json",
               },
             });
-=======
-          "Current Location";
-
-        /*
-         * Reverse geocoding:
-         *
-         * Coordinates are obtained automatically
-         * from the device and converted into a
-         * human-readable location name.
-         */
-
-        try {
-          const response =
-            await fetch(
-              `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=10`
-            );
->>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
 
           if (response.ok) {
             const data =
@@ -652,23 +426,15 @@ function QueryForm({
 
             locationName =
               data.display_name ||
-<<<<<<< HEAD
               "Current location";
           }
         } catch (error) {
           console.warn(
-=======
-              "Current Location";
-          }
-        } catch (error) {
-          console.error(
->>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
             "Reverse geocoding failed:",
             error
           );
         }
 
-<<<<<<< HEAD
         const location = {
           name: locationName,
           latitude,
@@ -680,24 +446,10 @@ function QueryForm({
         setShowLocationResults(false);
         setLocationResults([]);
         setLocationSearching(false);
-=======
-        setLocation({
-          name: locationName,
-          latitude,
-          longitude,
-        });
-
-        setSearch(locationName);
-
-        setShowLocationOptions(false);
-
-        setGettingLocation(false);
->>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
       },
 
       (error) => {
         console.error(
-<<<<<<< HEAD
           "Geolocation error:",
           error
         );
@@ -727,22 +479,6 @@ function QueryForm({
             setLocationError(
               "Unable to get your current location."
             );
-=======
-          "Location error:",
-          error
-        );
-
-        setGettingLocation(false);
-
-        if (error.code === 1) {
-          alert(
-            "Location permission was denied. Please allow location access in your browser."
-          );
-        } else {
-          alert(
-            "Unable to access your current location. Please try again."
-          );
->>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
         }
       },
 
@@ -755,7 +491,6 @@ function QueryForm({
   }
 
   /*
-<<<<<<< HEAD
   =========================================================
   VOICE
   =========================================================
@@ -887,59 +622,19 @@ function QueryForm({
     if (!cleanedQuestion) {
       setSpeechError(
         "Please enter or speak a question first."
-=======
-   * --------------------------------------------------
-   * SELECT LOCATION
-   * --------------------------------------------------
-   */
-
-  function selectLocation(
-    selectedLocation: LocationOption
-  ) {
-    setLocation(selectedLocation);
-
-    setSearch(
-      selectedLocation.name
-    );
-
-    setShowLocationOptions(false);
-  }
-
-  /*
-   * --------------------------------------------------
-   * SUBMIT
-   * --------------------------------------------------
-   */
-
-  function handleSubmit(
-    event: React.FormEvent<HTMLFormElement>
-  ) {
-    event.preventDefault();
-
-    if (!question.trim()) {
-      alert(
-        "Please enter or speak your question."
->>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
       );
 
       return;
     }
 
-<<<<<<< HEAD
     if (!selectedLocation) {
       setLocationError(
         "Please select a marine location."
-=======
-    if (!date || !time) {
-      alert(
-        "Please select a departure date and time."
->>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
       );
 
       return;
     }
 
-<<<<<<< HEAD
     if (!selectedDate) {
       setSpeechError(
         "Please select a departure date."
@@ -993,36 +688,10 @@ function QueryForm({
 
       locationName:
         selectedLocation.name,
-=======
-    onAsk({
-      question: question.trim(),
-
-      /*
-       * IMPORTANT:
-       *
-       * The user does NOT enter coordinates.
-       *
-       * ORCA receives them internally from the
-       * selected location or current location.
-       */
-
-      latitude:
-        location.latitude,
-
-      longitude:
-        location.longitude,
-
-      datetime:
-        `${date}T${time}:00`,
-
-      locationName:
-        location.name,
->>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
     });
   }
 
   /*
-<<<<<<< HEAD
   =========================================================
   SUGGESTIONS
   =========================================================
@@ -1106,50 +775,10 @@ function QueryForm({
 
           <div className="query-left-controls">
 
-=======
-   * --------------------------------------------------
-   * RENDER
-   * --------------------------------------------------
-   */
-
-  return (
-    <form
-      className="query-form"
-      onSubmit={handleSubmit}
-    >
-
-      {/* ============================================
-          QUESTION
-      ============================================ */}
-
-      <div className="form-section">
-
-        <label htmlFor="question">
-          What do you want to know?
-        </label>
-
-        <div className="question-input-wrapper">
-
-          <textarea
-            id="question"
-            value={question}
-            onChange={(event) =>
-              setQuestion(
-                event.target.value
-              )
-            }
-            placeholder="Ask ORCA anything about your journey, fishing, weather or sea conditions..."
-            rows={4}
-            disabled={loading}
-          />
-
-          {speechSupported && (
->>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
             <button
               type="button"
               className={`voice-button ${
                 isListening
-<<<<<<< HEAD
                   ? "voice-button-active"
                   : ""
               }`}
@@ -1224,65 +853,12 @@ function QueryForm({
                 onClick={() =>
                   useSuggestion(
                     suggestion
-=======
-                  ? "voice-listening"
-                  : ""
-              }`}
-              onClick={
-                startVoiceInput
-              }
-              disabled={
-                loading ||
-                isListening
-              }
-              title="Speak your question"
-            >
-              {isListening
-                ? "🔴"
-                : "🎤"}
-            </button>
-          )}
-
-        </div>
-
-        {isListening && (
-          <p className="voice-status">
-            🎤 Listening... Speak naturally.
-          </p>
-        )}
-
-        <p className="voice-hint">
-          Type your question or tap 🎤 to
-          speak.
-        </p>
-
-        {/* QUICK QUESTIONS */}
-
-        <div className="example-questions">
-
-          <span>
-            TRY ASKING
-          </span>
-
-          {quickQuestions.map(
-            (quickQuestion) => (
-              <button
-                type="button"
-                key={quickQuestion}
-                onClick={() =>
-                  setQuestion(
-                    quickQuestion
->>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
                   )
                 }
                 disabled={loading}
               >
-<<<<<<< HEAD
                 {suggestion}
                 <span aria-hidden="true">→</span>
-=======
-                {quickQuestion}
->>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
               </button>
             )
           )}
@@ -1291,7 +867,6 @@ function QueryForm({
 
       </div>
 
-<<<<<<< HEAD
       {/* =================================================
           LOCATION
       ================================================= */}
@@ -1319,22 +894,10 @@ function QueryForm({
           </button>
 
         </div>
-=======
-      {/* ============================================
-          LOCATION
-      ============================================ */}
-
-      <div className="form-section">
-
-        <label htmlFor="location">
-          Where are you going?
-        </label>
->>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
 
         <div className="location-search-wrapper">
 
           <input
-<<<<<<< HEAD
             type="text"
             value={locationInput}
             onChange={(event) => {
@@ -1450,121 +1013,6 @@ function QueryForm({
             min={getTodayString()}
             onChange={(event) =>
               handleDateChange(
-=======
-            id="location"
-            type="text"
-            value={search}
-            onFocus={() =>
-              setShowLocationOptions(
-                true
-              )
-            }
-            onChange={(event) => {
-              setSearch(
-                event.target.value
-              );
-
-              setShowLocationOptions(
-                true
-              );
-            }}
-            placeholder="Search for a coastal location..."
-            disabled={loading}
-            autoComplete="off"
-          />
-
-          {showLocationOptions && (
-            <div className="location-options">
-
-              {filteredLocations.length >
-              0 ? (
-                filteredLocations.map(
-                  (item) => (
-                    <button
-                      type="button"
-                      key={item.name}
-                      onClick={() =>
-                        selectLocation(
-                          item
-                        )
-                      }
-                      disabled={loading}
-                    >
-                      <span>
-                        📍
-                      </span>
-
-                      <span>
-                        {item.name}
-                      </span>
-                    </button>
-                  )
-                )
-              ) : (
-                <p>
-                  No matching location
-                  found.
-                </p>
-              )}
-
-            </div>
-          )}
-
-        </div>
-
-        {/* CURRENT LOCATION */}
-
-        <button
-          type="button"
-          className="current-location-button"
-          onClick={
-            useCurrentLocation
-          }
-          disabled={
-            loading ||
-            gettingLocation
-          }
-        >
-          {gettingLocation
-            ? "🧭 Finding your location..."
-            : "🧭 Use my current location"}
-        </button>
-
-        <p className="selected-location">
-          Selected location:{" "}
-          <strong>
-            {location.name}
-          </strong>
-        </p>
-
-        <p className="voice-hint">
-          You don't need to enter latitude
-          or longitude. ORCA handles the
-          coordinates automatically.
-        </p>
-
-      </div>
-
-      {/* ============================================
-          DATE + TIME
-      ============================================ */}
-
-      <div className="location-row">
-
-        <div className="form-section">
-
-          <label htmlFor="date">
-            Departure date
-          </label>
-
-          <input
-            id="date"
-            type="date"
-            value={date}
-            min={getTodayDate()}
-            onChange={(event) =>
-              setDate(
->>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
                 event.target.value
               )
             }
@@ -1573,7 +1021,6 @@ function QueryForm({
 
         </div>
 
-<<<<<<< HEAD
         {/* TIME */}
 
         <div className="departure-time">
@@ -1712,31 +1159,11 @@ function QueryForm({
             )}
 
           </div>
-=======
-        <div className="form-section">
-
-          <label htmlFor="time">
-            Departure time
-          </label>
-
-          <input
-            id="time"
-            type="time"
-            value={time}
-            onChange={(event) =>
-              setTime(
-                event.target.value
-              )
-            }
-            disabled={loading}
-          />
->>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
 
         </div>
 
       </div>
 
-<<<<<<< HEAD
       {/* =================================================
           SPEECH ERROR
       ================================================= */}
@@ -1768,23 +1195,6 @@ function QueryForm({
 
 
     </div>
-=======
-      {/* ============================================
-          ASK ORCA
-      ============================================ */}
-
-      <button
-        className="ask-button"
-        type="submit"
-        disabled={loading}
-      >
-        {loading
-          ? "🐋 ORCA IS ANALYZING..."
-          : "🐋 ASK ORCA"}
-      </button>
-
-    </form>
->>>>>>> cdaee67237b5c38530c3707a06afebd309e90e38
   );
 }
 
